@@ -1,5 +1,5 @@
 SET ErrorMessage TO ''
-Variables.AddItemToList Item: $'''CleanupOnError''' List: List_SubflowNames
+Variables.AddItemToList Item: $'''ProcessWorkItem''' List: List_SubflowNames
 SET Log_Message TO $'''INFO;;;Start'''
 CALL Logger
 BLOCK 
@@ -7,12 +7,12 @@ ON BLOCK ERROR all
     SET Log_Message TO $'''TRACE'''
     CALL Logger
 END
-    # If needed, call `TakeScreenshot` subflow to take a screenshot before calling any `Close*` subflows (except CloseExcel).
-    WorkQueues.UpdateProcessingNotes.WithProcessingNotes WorkQueueItem: WorkQueueItem ProcessingNotes: $'''Status: %WorkItem_Status%; Message: %WorkItem_Message%'''
-    CALL PrepareSystem
+    # Replace this comment with custom subflows
     IF IsNotEmpty(ErrorMessage) THEN
         GOTO 'Exit'
     END
+    SET WorkItem_Status TO $'''Success'''
+    SET WorkItem_Message TO $'''Successfully processed work item with number %WorkItem_Number% and Id %WorkItem_Id%.'''
 END
 LABEL 'Exit'
 SET Log_Message TO $'''INFO;;;End'''
